@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > StudentServiceImplementation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.classregister.school.services.implemantations</a>
+</div>
+
+<h1>Coverage Summary for Class: StudentServiceImplementation (com.classregister.school.services.implemantations)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StudentServiceImplementation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.classregister.school.services.implemantations;
+&nbsp;
+&nbsp;import com.classregister.school.dto.RegisterResponseDTO;
+&nbsp;import com.classregister.school.model.Register;
+&nbsp;import com.classregister.school.model.Student;
+&nbsp;import com.classregister.school.repository.RegisterRepository;
+&nbsp;import com.classregister.school.repository.StudentRepository;
+&nbsp;import com.classregister.school.services.StudentsService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import javax.persistence.EntityNotFoundException;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class StudentServiceImplementation implements StudentsService {</b>
+&nbsp;    @Autowired
+&nbsp;    private StudentRepository studentRepo;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private RegisterRepository registerRepository;
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Student getById(Integer id) {
+<b class="fc">&nbsp;        Optional&lt;Student&gt; student = studentRepo.findById(id);</b>
+<b class="fc">&nbsp;        if(student.isEmpty()) {</b>
+<b class="fc">&nbsp;            throw new EntityNotFoundException(&quot;Student not found&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return student.get();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Student saving(Student student) {
+<b class="fc">&nbsp;        return studentRepo.save(student);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RegisterResponseDTO getRegister(Integer classid , Integer institution_id) {
+&nbsp;
+<b class="fc">&nbsp;        List&lt;Student&gt; students = studentRepo.findAllByIdAndInstitution(classid, institution_id);</b>
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        for (Student student : students) {</b>
+<b class="fc">&nbsp;            Register register = new Register();</b>
+<b class="fc">&nbsp;            register.setStudentSurname(student.getStudentSurname());</b>
+<b class="fc">&nbsp;            register.setStudentFirstName(student.getStudentFirstName());</b>
+<b class="fc">&nbsp;            register.setClassId(student.getClassid());</b>
+<b class="fc">&nbsp;            register.setInstitutionId(student.getInstitutionid());</b>
+<b class="fc">&nbsp;            register.setAttendance(true);</b>
+<b class="fc">&nbsp;            register.setDateTime(LocalDate.now());</b>
+<b class="fc">&nbsp;            registerRepository.save(register);</b>
+&nbsp;
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        RegisterResponseDTO  registerResponseDTO = new RegisterResponseDTO();</b>
+<b class="fc">&nbsp;        registerResponseDTO.setCode(200);</b>
+<b class="fc">&nbsp;        registerResponseDTO.setMessage(&quot;Registration Successful&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;return  registerResponseDTO ;</b>
+&nbsp;}
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Register&gt; findRegisterBydate(LocalDate todaysdate) {
+&nbsp;var returned = registerRepository.findRegisterBydateBydate(todaysdate);
+<b class="fc">&nbsp;if (returned.isEmpty()) {</b>
+&nbsp;    throw new EntityNotFoundException(&quot;Register with provided date not found &quot;);
+&nbsp;}
+&nbsp;        return  returned ;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RegisterResponseDTO updateattendance(Integer id , Boolean attendance ) {
+&nbsp;     //   if (id ==registerRepository.getRegister(id) ){
+&nbsp;        //throw  new StudentNotFoundException(&quot;Student with Id &quot; + id +&quot;Not Found &quot;);
+&nbsp;
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;      //   }</b>
+<b class="fc">&nbsp;</b>
+&nbsp;        var updatedRegister = registerRepository.getRegister(id);
+&nbsp;        updatedRegister.setAttendance(attendance);
+&nbsp;        registerRepository.save(updatedRegister);
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;//for (Register newregister : register)}</b>
+<b class="fc">&nbsp;  //  else</b>
+<b class="fc">&nbsp;     //   return registerRepository.updateattendance(id, attendance);}</b>
+<b class="fc">&nbsp;        RegisterResponseDTO  registerResponseDTO = new RegisterResponseDTO();</b>
+&nbsp;        registerResponseDTO.setCode(200);
+&nbsp;        registerResponseDTO.setMessage(&quot;student with ID &quot; +id+ &quot;Updated Successfully&quot;);
+&nbsp;return  registerResponseDTO ;
+&nbsp;
+&nbsp;
+&nbsp;}
+<b class="fc">&nbsp;</b>
+&nbsp;    @Override
+&nbsp;    public RegisterResponseDTO getnumberofdayspresent(Integer id) {
+<b class="fc">&nbsp;var registerrepo = registerRepository.getRegister(id);</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;        RegisterResponseDTO registerResponseDTO = new RegisterResponseDTO();</b>
+&nbsp;        registerResponseDTO.setMessage(registerrepo.getStudentSurname()+ &quot; &quot; + registerrepo.getStudentFirstName()+&quot; Was Present For &quot;+registerRepository.getPresentDays(id) + &quot; Days&quot; );
+&nbsp;        registerResponseDTO.setCode(200);
+&nbsp;        return registerResponseDTO;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-21 10:03</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: git
+
+  profiles:
+    active: dev
+
+server:
+  port: 9595
+
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha

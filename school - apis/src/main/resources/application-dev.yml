@@ -1,0 +1,28 @@
+
+spring:
+  #gk_sa Token DataSource
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: "jdbc:mysql://localhost:3306/academics?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Africa/Harare"
+    username: 'root'
+    password: 'root'
+    driverClassName: com.mysql.jdbc.Driver
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    database: MYSQL
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+        enable_lazy_load_no_trans: true
+git:
+  token: "glpat-xrZCuATbd48pbKCkN3dy"
+  username: "flavianmachimbirike"
+  email: "flavianmachimbirike@gmail.com"
+
