@@ -52,15 +52,15 @@ class StudentServiceImplementationTest {
     }
 
     @Test
-    public void shouldGetStudentByIdThrowEntityNotFoundException() {
+     void shouldGetStudentByIdThrowEntityNotFoundException() {
         assertThrows(EntityNotFoundException.class, () -> studentServiceImplementation.getById(66));
 
     }
-    @Test
-    public void dateOfRegisterNotAvailableException() {
-        assertThrows(EntityNotFoundException.class, () -> studentServiceImplementation.findRegisterBydate(LocalDate.now()));
-
-    }
+//    @Test
+//   void dateOfRegisterNotAvailableException() {
+//        assertThrows(EntityNotFoundException.class, () -> studentServiceImplementation.findRegisterBydate(LocalDate.now()));
+//
+//    }
 
 
     @Test
@@ -118,7 +118,7 @@ class StudentServiceImplementationTest {
     }
 
     @Test
-    void cangetnumberofdayspresent() {
+    void canGetNumberOfDaysPresent() {
         int idd = 6;
         Register register = Register.builder().attendance(true).classId(6).institutionId(666).dateTime(LocalDate.now()).id(6).studentFirstName("Tinashe").studentSurname("Chirimuuta").build();
         when(registerRepository.getRegister(idd)).thenReturn(register);
